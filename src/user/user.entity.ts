@@ -5,18 +5,18 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 export class UserEntity {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    ID_USUARIO: number;
 
     @Column()
-    usuario:string;
+    NOMBRE:string;
 
     @Column()
-    email:string;
+    CORREO:string;
 
     @Column()
-    password:string;
+    PASS:string;
 
     async comparePassword(attemp: string){
-        return await attemp === this.password;
+        return await attemp === this.PASS;
     }
 }

@@ -10,7 +10,7 @@ export class UserService {
     private userRepository:Repository<UserEntity>){}
 
     async showAll(){
-        return await this.userRepository.find({select: ['id','email','usuario']});
+        return await this.userRepository.find({select: ["ID_USUARIO","NOMBRE","CORREO"]});
     }
 
     async create(data: UserDTO){
@@ -20,9 +20,9 @@ export class UserService {
     }
 
     async login(data: Partial<UserDTO>){
-        const {usuario,password} = data;
-        const user = await this.userRepository.findOne({where: {usuario}})
-        if(!user || !(await user.comparePassword(password))){
+        const {NOMBRE,PASS} = data;
+        const user = await this.userRepository.findOne({where: {NOMBRE}})
+        if(!user || !(await user.comparePassword(PASS))){
             throw new HttpException(
                 'Usuario o contra invalida',HttpStatus.BAD_REQUEST,
             )
@@ -31,16 +31,16 @@ export class UserService {
     }
 
     async read(id:number){
-        return await this.userRepository.findOne({ where: {id}})
+        return await this.userRepository.findOne({ where: {id},select:["ID_USUARIO","NOMBRE"]})
     }
 
-    async update(id: number, data:Partial<UserDTO>){
-        await this.userRepository.update({id},data);
-        return await this.userRepository.findOne({id})
+    async update(ID_USUARIO: number, data:Partial<UserDTO>){
+        await this.userRepository.update({ID_USUARIO},data);
+        return await this.userRepository.findOne({ID_USUARIO})
     }
 
-    async destroy(id:number){
-        await this.userRepository.delete({id})
+    async destroy(ID_USUARIO:number){
+        await this.userRepository.delete({ID_USUARIO})
         return {deleted : true}
     }
 
